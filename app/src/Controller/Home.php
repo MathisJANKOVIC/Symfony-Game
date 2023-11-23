@@ -12,14 +12,24 @@
         #[Route('/', name: 'home', methods: ['GET'])]
         public function Home()
         {
-            $year = $_GET["year"];
-            $month = $_GET["month"];
-            if ($year == null) {
+            if(isset($_GET["year"])){
+                $year = $_GET["year"];
+                $month = $_GET["month"];
+            } else {
                 $year = date('Y');
                 $month = date('m');
             }
 
-            $months = [];
+            if($month == 13){
+                $month = 1;
+                $year += 1;
+            }
+
+            if($month == 0){
+                $month = 12;
+                $year -= 1;
+            }
+
             $firstDay = new DateTime("$year-$month-01");
             $lastDay = new DateTime("$year-$month-" . $firstDay->format('t'));
             $currentDay = clone $firstDay;
@@ -33,7 +43,6 @@
             return $this->render("home.html.twig", [
                             'weeks' => $weeks,
                             'year' => $year,
-                            'months' => $months,
                             'month' => $month,
             ]);
         }

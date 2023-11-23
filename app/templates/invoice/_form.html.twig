@@ -1,0 +1,75 @@
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.totalHT) }}
+    {{ form_row(form.totalTVA) }}
+    {{ form_row(form.totalTTC) }}
+
+    <h3>Lines</h3>
+    <ul 
+        class="invoiceLines"
+        data-index="{{ form.invoiceLines|length > 0 ? form.invoiceLines|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(form.invoiceLines.vars.prototype)|e('html_attr') }}"
+    >
+        <button type="button" class="add_item_link btn btn-success" data-collection-holder-class="invoiceLines">Add a line</button>
+        {% for line in form.invoiceLines %}
+            <li>
+                {{ form_row(line.product) }}
+                {{ form_row(line.quantity) }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="mb-3">
+        <a class="btn-secondary btn" href="{{ path('app_invoice') }}">Retour</a>
+        <button type="submit" class="btn-primary btn">Save</button>
+    </div>
+{{ form_end(form) }}
+
+<script>
+    const addFormToCollection = (e) => {
+        const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+        const item = document.createElement('li');
+
+        item.innerHTML = collectionHolder
+            .dataset
+            .prototype
+            .replace(
+            /__name__/g,
+            collectionHolder.dataset.index
+            );
+
+        collectionHolder.appendChild(item);
+
+        collectionHolder.dataset.index++;
+
+        addInvoiceLineFormDeleteLink(item);
+    };
+
+    const addInvoiceLineFormDeleteLink = (item) => {
+        const removeFormButton = document.createElement('button');
+        removeFormButton.innerText = 'Delete this line';
+
+        item.append(removeFormButton);
+
+        removeFormButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            // remove the li for the tag form
+            item.remove();
+        });
+    }
+
+    document
+        .querySelectorAll('.add_item_link')
+        .forEach(btn => {
+            btn.addEventListener("click", addFormToCollection)
+        });
+
+    document
+        .querySelectorAll('ul.invoiceLines li')
+        .forEach((invoice) => {
+            addInvoiceLineFormDeleteLink(invoice)
+        });
+</script>

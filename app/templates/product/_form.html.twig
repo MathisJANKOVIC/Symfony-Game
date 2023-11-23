@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.price) }}
+
+    <div class="mb-3">
+        <a class="btn-secondary btn" href="{{ path('app_home') }}">Retour</a>
+        <button type="submit" class="btn-primary btn">Save</button>
+    </div>
+{{ form_end(form) }}

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Factures !{% endblock %}
+
+{% block body %}
+    <div class="col">
+        <div class="d-flex justify-content-between">
+            <h2>{{ invoice.name }}</h2>
+            <div>
+                <a class="btn btn-secondary" href="{{ path('app_invoice') }}">Retour</a>
+                <a class="btn btn-success" href="{{ path('app_invoice_edit', { 'id': invoice.id }) }}">Editer</a>
+            </div>
+        </div>
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Produit</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in invoice.invoiceLines %}
+                        <tr>
+                            <td>{{ line.id }}</td>
+                            <td>{{ line.product.name }}</td>
+                            <td>{{ line.quantity }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <p>
+                <b>Total HT</b>: {{invoice.totalHT}}
+            </p>
+            <p>
+                <b>Total TVA</b>: {{invoice.totalTVA}}
+            </p>
+            <p>
+                <b>Total TTC</b>: {{invoice.totalTTC}}
+            </p>
+        </div>
+    </div>
+{% endblock %}

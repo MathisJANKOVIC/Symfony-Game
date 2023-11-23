@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Factures !{% endblock %}
+
+{% block body %}
+    <div class="col">
+        {% for invoice in invoices %}
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ invoice.name }}</h5>
+                        </div>
+                        <div class="card-footer text-end">
+                            <a class="btn btn-primary" href="{{ path('app_invoice_show', {id: invoice.id}) }}">Voir</a>
+                            <a class="btn btn-success" href="{{ path('app_invoice_edit', { 'id': invoice.id }) }}">Editer</a>
+                            <a class="btn btn-danger" href="{{ path('app_invoice_delete', { 'id': invoice.id }) }}">Supp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

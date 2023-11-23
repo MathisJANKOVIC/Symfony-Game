@@ -26,25 +26,21 @@ class User
     #[ORM\Column(type: Types::BLOB, nullable: true)]
     private $avatar = null;
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getEmail(): ?string
-    {
+    public function getEmail(): ?string {
         return $this->email;
     }
 
-    public function setEmail(string $email): static
-    {
+    public function setEmail(string $email): static {
         $this->email = $email;
 
         return $this;
     }
 
-    public function getPassword(): ?string
-    {
+    public function getPassword(): ?string{
         return $this->password;
     }
 
@@ -55,8 +51,7 @@ class User
         return $this;
     }
 
-    public function getUsername(): ?string
-    {
+    public function getUsername(): ?string {
         return $this->username;
     }
 
@@ -67,8 +62,7 @@ class User
         return $this;
     }
 
-    public function getAvatar()
-    {
+    public function getAvatar(){
         return $this->avatar;
     }
 

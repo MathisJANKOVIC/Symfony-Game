@@ -24,7 +24,7 @@
             $lastDay = new DateTime("$year-$month-" . $firstDay->format('t'));
             $currentDay = clone $firstDay;
             $weeks = [];
-            
+
             while ($currentDay <= $lastDay) {
                 $weeks[$currentDay->format('W')][] = clone $currentDay;
                 $currentDay->modify('+1 day');
@@ -35,7 +35,7 @@
                             'year' => $year,
                             'months' => $months,
                             'month' => $month,
-                        ]);
+            ]);
         }
 
     }

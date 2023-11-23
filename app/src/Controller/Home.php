@@ -40,11 +40,12 @@
                 $currentDay->modify('+1 day');
             }
 
-            return $this->render("home.html.twig", [
-                            'weeks' => $weeks,
-                            'year' => $year,
-                            'month' => $month,
+            return $this->render("home.html.twig",[
+                'weeks' => $weeks,
+                'year' => $year,
+                'month' => $month,
             ]);
         }
 
     }
+?>

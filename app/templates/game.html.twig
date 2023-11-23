@@ -4,8 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>game</title>
+    <style>
+        /* Styles CSS pour les cases */
+        .jeux {
+            text-align: center;
+        }
+
+        .table {
+            border-collapse: collapse;
+        }
+
+        .cell {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #000;
+            padding: 5px; /* Espacement entre le contenu et les bords */
+            text-align: center; /* Centrage du contenu */
+            font-size: 30px; /* Taille du texte */
+            font-weight: 900; /* Texte en gras */
+        }
+    </style>
 </head>
 <body>
-    <h1> {{selected_day}}</h1>
+    <h1> {{word}}</h1>
+    <div class="jeux">
+        <table>
+            {% for rowIndex, row in rows %}
+                <tr>
+                    {% for columnIndex, column in row %}
+                        {# Utilisation des index pour accéder aux couleurs correspondantes #}
+                        <td class="cell" style="background-color: {{ colors[rowIndex][columnIndex] }}">{{ column }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {{ form_start(form) }}
+        {{ form_row(form.word) }}
+        {{ form_row(form.submit) }}
+    {{ form_end(form) }}
 </body>
 </html>

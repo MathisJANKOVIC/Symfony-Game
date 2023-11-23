@@ -7,11 +7,12 @@
 
     class Game extends AbstractController
     {
-        #[Route('/Game', name: 'Game', methods: ['GET','HEAD'], )]
-        public function Game(): Response
+        #[Route('/game', name: 'game', methods: ['GET'])]
+        public function game(): Response
         {
-            $selected_day=$_GET['selected_day'];
-            return $this->render("Game.html.twig", [
+            $selected_day = $_GET['selected_day'];
+
+            return $this->render("game.html.twig", [
                 'selected_day' => $selected_day,
             ]);
         }

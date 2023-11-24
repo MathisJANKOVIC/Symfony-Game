@@ -33,16 +33,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    #[ORM\Column(type: Types::BLOB, nullable: true)]
-    private $avatar = null;
+    #[ORM\Column(type:'string', nullable: true)]
+    private $avatarFileName = null;
 
-    public function getId(): ?int
+    public function getAvatarFileName(): string {
+        return $this->avatarFileName;
+    }
+
+    public function setAvatarFileName(string $avatarFileName): self
     {
+        $this->avatarFileName = $avatarFileName;
+        return $this;
+    }
+
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getEmail(): ?string
-    {
+    public function getEmail(): ?string {
         return $this->email;
     }
 
@@ -118,15 +126,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAvatar()
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar($avatar): static
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
 }

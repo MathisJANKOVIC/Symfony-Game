@@ -55,7 +55,7 @@
             // Création du formulaire
             $form = $this->createFormBuilder()
                 ->add('word', TextType::class, [
-                    'label' => 'Mot :',
+                    'label' => ' ',
                     'constraints' => [
                         new Length([
                             'min' => $columns,
@@ -64,9 +64,9 @@
                         ]),
                     ]
                 ])
-                ->add('submit', SubmitType::class, ['label' => 'Valider'])
+                ->add('submit', SubmitType::class, ['label' => 'Essayer'])
                 ->getForm();
-            
+
             // Gestion de la soumission du formulaire
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -74,7 +74,7 @@
                 $data = $form->getData();
                 $value = $data['word'];
 
-                for ($i = 0; $i < $columns; $i++) {   
+                for ($i = 0; $i < $columns; $i++) {
                     $rows[$round][$i]=$value[$i];
                 }
 
@@ -86,7 +86,7 @@
                     }
                 }
 
-                for ($i = 0; $i < $columns; $i++) {   
+                for ($i = 0; $i < $columns; $i++) {
                     if (strtolower($value[$i]) === strtolower($word[$i])){
                         $colors[$round][$i]='red';
                     }
@@ -126,6 +126,3 @@
             ]);
         }
     }
-
-
-    

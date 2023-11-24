@@ -1,35 +1,85 @@
-<!DOCTYPE html>
+{% extends 'base.html.twig' %}
+{% block body %}
+
 <html lang="en" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
     <title>Accueil</title>
 </head>
 <body>
-
-    <a href="{{ path('home', {'year': year, 'month': month - 1}) }}">Mois précédent</a>
-    <a href="{{ path('home', {'year': year, 'month': month + 1}) }}">Mois suivant</a>
+    <h1>Choisissez un jour à deviner le mot</h1>
+    <div class="change-month">
+        <a href="{{ path('home', {'year': year, 'month': month - 1}) }}">Mois précédent</a>
+        <a href="{{ path('home', {'year': year, 'month': month + 1}) }}">Mois suivant</a>
+    </div>
     <table>
-      <thead>
-        <tr>
-          <th>Lun</th>
-          <th>Mar</th>
-          <th>Mer</th>
-          <th>Jeu</th>
-          <th>Ven</th>
-          <th>Sam</th>
-          <th>Dim</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for week in weeks %}
-          <tr>
-            {% for day in week %}
-              <td><a href="{{ path('game', {'selected_day': day.format('Y-m-d') }) }}">{{ day.format('d') }}</a></td>
+        <thead>
+            <tr>
+                <th>Lun</th>
+                <th>Mar</th>
+                <th>Mer</th>
+                <th>Jeu</th>
+                <th>Ven</th>
+                <th>Sam</th>
+                <th>Dim</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for week in weeks %}
+            <tr>
+                {% for day in week %}
+                <td><a href="{{ path('game', {'selected_day': day.format('Y-m-d') }) }}">{{ day.format('d') }}</a></td>
+                {% endfor %}
+            </tr>
             {% endfor %}
-          </tr>
-        {% endfor %}
-      </tbody>
+        </tbody>
     </table>
 </body>
 </html>
+
+<style>
+    html
+    {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    h1{
+        margin-top: -40px;
+        text-align: center;
+        font-size: 30px;
+        margin-top:15px;
+    }
+
+    .change-month{
+        margin-top: 25px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    body table
+    {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center; /* Centre le texte horizontalement */
+    }
+
+    body thead tr th{
+        background-color: #f2f2f2;
+    }
+
+    body tbody tr td{
+        vertical-align: middle;
+    }
+</style>
+
+{% endblock %}

@@ -92,11 +92,16 @@
                     }
                 }
 
-                $finished = (strtolower($value) === strtolower($word));
+                if(strtolower($value) === strtolower($word)){
+                    $session->set('recap', [
+                        'word' => $word,
+                        'round' => $round,
+                    ]);
+                    $session->set('game', []);
+                    return $this->redirectToRoute('recap');
+                }
 
                 $round += 1;
-            }else{
-                $finished = FALSE;
             }
 
             $session->set('game', [
@@ -113,16 +118,11 @@
                 }
             }
 
-            if($finished){ 
-                $session->set('game', []);
-            }
-
             return $this->render("game.html.twig", [
                 'form' => $form->createView(),
                 'word' => $word,
                 'rows' => $rows,
                 'colors' => $colors,
-                'finished' => $finished,
             ]);
         }
     }

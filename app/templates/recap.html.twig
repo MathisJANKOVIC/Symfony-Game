@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<body>
+<div class="princip">
+    <div class="test">
+        <h1>You Win</h1>
+        <h1>Vous avez trouvé {{word}} en {{round + 1}} essai</h1>
+        <a href="{{ path('home') }}" class="btn btn-primary float-end">Acceuil</a>
+    </div>
+</body>
+<style>
+.princip {
+    display : flex;
+    justify-content : center;
+    margin : 10% 10% 10% 10%;
+}
+
+.test {
+    justify-content : center;
+}
+</style>
+{% endblock %}

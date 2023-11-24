@@ -6,12 +6,21 @@
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\Routing\Annotation\Route;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Symfony\Component\HttpFoundation\Session\SessionInterface;
+    use App\Entity\User;
+    use Doctrine\ORM\EntityManagerInterface;
 
     class Home extends AbstractController
     {
         #[Route('/', name: 'home', methods: ['GET'])]
-        public function Home()
+        public function Home(SessionInterface $session, EntityManagerInterface $entityManager)
         {
+            //if(isset($_GET["email"])){
+                // $UserEntity = $entityManager->getRepository(User::class)
+                //     ->findOneBy(['email' => $_GET["email"]]);
+                // $session->set('user', ['User' => $UserEntity]);
+            //}
+
             if(isset($_GET["year"])){
                 $year = $_GET["year"];
                 $month = $_GET["month"];
@@ -44,6 +53,7 @@
                 'weeks' => $weeks,
                 'year' => $year,
                 'month' => $month,
+                // 'email' => $email,
             ]);
         }
 

@@ -11,6 +11,7 @@
     use Symfony\Component\Validator\Constraints\Length;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Session\SessionInterface;
+    use DateTime;
 
     class Game extends AbstractController
     {
@@ -18,6 +19,9 @@
         public function game( EntityManagerInterface $entityManager , Request $request , SessionInterface $session): Response
         {
             if(isset($_GET['selected_day'])){
+                if(new \DateTime(date('Y-m-d'))<new \DateTime($_GET['selected_day'])){
+                    return $this->redirectToRoute('home');
+                }
                 $wordEntity = $entityManager->getRepository(Word::class)
                     ->findOneBy(['date' => new \DateTime($_GET['selected_day'])]);
                 $word = $wordEntity->getWord();
@@ -116,6 +120,11 @@
                 if($round != $storedData['round']){
                     return $this->redirectToRoute('game');
                 }
+            }
+            
+            if($round == 8){
+                $session->set('game', []);
+                return $this->redirectToRoute('home');
             }
 
             return $this->render("game.html.twig", [

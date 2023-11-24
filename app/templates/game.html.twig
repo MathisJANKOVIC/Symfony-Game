@@ -26,7 +26,12 @@
     </style>
 </head>
 <body>
-    <h1> {{word}}</h1>
+    {% if finished %}
+    <script>
+        alert('Vous avez trouvé le mot '+'{{word}}');
+        window.location.href = "/";
+    </script>
+    {% endif %}
     <div class="jeux">
         <table>
             {% for rowIndex, row in rows %}

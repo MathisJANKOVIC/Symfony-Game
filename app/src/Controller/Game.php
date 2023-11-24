@@ -14,7 +14,7 @@
 
     class Game extends AbstractController
     {
-        #[Route('/game', name: 'game', methods: ['GET','POST'])]
+        #[Route('/game', name: 'game', methods: ['GET', 'POST'])]
         public function game( EntityManagerInterface $entityManager , Request $request , SessionInterface $session): Response
         {
             if(isset($_GET['selected_day'])){
@@ -39,21 +39,19 @@
                     }
                     $colors[] = $color;
                 }
-                $session->set('game', [
-                    'word' => $word,
-                    'columns' => $columns,
-                    'rows' => $rows,
-                    'colors' => $colors,
-                ]);
+                $round = 0;
             }
 
-            $storedData = $session->get('game');
-            // Accéder aux données individuelles
-            $word = $storedData['word'];
-            $columns = $storedData['columns'];
-            $rows = $storedData['rows'];
-            $colors = $storedData['colors'];
-            
+            if(null != $session->get('game')){
+                $storedData = $session->get('game');
+                // Accéder aux données individuelles
+                $word = $storedData['word'];
+                $columns = $storedData['columns'];
+                $rows = $storedData['rows'];
+                $colors = $storedData['colors'];
+                $round = $storedData['round'];
+            }
+
             // Création du formulaire
             $form = $this->createFormBuilder()
                 ->add('word', TextType::class, [
@@ -74,18 +72,60 @@
             if ($form->isSubmitted() && $form->isValid()) {
                 // Récupération des données du formulaire
                 $data = $form->getData();
-                // Faire quelque chose avec les données (par exemple, enregistrer en base de données)
+                $value = $data['word'];
 
-                return $this->redirectToRoute("game");
+                for ($i = 0; $i < $columns; $i++) {   
+                    $rows[$round][$i]=$value[$i];
+                }
+
+                for ($i = 0; $i < $columns; $i++) {
+                    for ($j = 0; $j < $columns; $j++) {
+                        if (strtolower($value[$i]) === strtolower($word[$j])){
+                            $colors[$round][$i]='orange';
+                        }
+                    }
+                }
+
+                for ($i = 0; $i < $columns; $i++) {   
+                    if (strtolower($value[$i]) === strtolower($word[$i])){
+                        $colors[$round][$i]='red';
+                    }
+                }
+
+                $finished = (strtolower($value) === strtolower($word));
+
+                $round += 1;
+            }else{
+                $finished = FALSE;
             }
 
+            $session->set('game', [
+                'word' => $word,
+                'columns' => $columns,
+                'rows' => $rows,
+                'colors' => $colors,
+                'round' => $round,
+            ]);
+
+            if(! isset($_GET['selected_day'])){
+                if($round != $storedData['round']){
+                    return $this->redirectToRoute('game');
+                }
+            }
+
+            if($finished){ 
+                $session->set('game', []);
+            }
 
             return $this->render("game.html.twig", [
                 'form' => $form->createView(),
                 'word' => $word,
                 'rows' => $rows,
                 'colors' => $colors,
+                'finished' => $finished,
             ]);
         }
-
     }
+
+
+    
